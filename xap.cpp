@@ -66,22 +66,16 @@ void HandleKeyEvent(Display *display, XEvent *Event) {
 }
 
 void X11EventListener() {
-  XEvent event;
-  Display *display = XOpenDisplay(nullptr);
-  unsigned int keycode = XKeysymToKeycode(display, XK_Insert);
-  unsigned int modifiers = ControlMask;
-  Window root = DefaultRootWindow(display);
-  Bool owner_events = False;
-
-  XGrabKey(display, keycode, modifiers, root, owner_events, GrabModeAsync,
-           GrabModeAsync);
-  std::cout << "XGrabKey done\n";
-  while (!StopThread) {
-    XNextEvent(display, &event);
-    HandleKeyEvent(display, &event);
-    std::this_thread::sleep_for(std::chrono::milliseconds(5));
-  }
-  XCloseDisplay(display);
+    Display* display = XOpenDisplay(nullptr);
+    Window root = DefaultRootWindow(display);
+    XGrabKey(display, XKeysymToKeycode(display, XK_Insert), AnyModifier, root, False, GrabModeAsync, GrabModeAsync);
+    XEvent event;
+    while (!StopThread) {
+        XNextEvent(display, &event);
+        HandleKeyEvent(display, &event);
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+    }
+    XCloseDisplay(display);
 }
 
 // Overlay
