@@ -51,5 +51,6 @@ unknowncheats: basic knowledge and offsets
     cd build
     cmake ..
     make
+    sudo ./xapclient
     
 **5. Press Strg +Insert to toggle the Menu (You can only interact with the Menu and the game when the menu is active).**
